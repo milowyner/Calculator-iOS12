@@ -13,6 +13,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var displayLabel: UILabel!
     @IBOutlet weak var safeAreaBlur: UIStackView!
     
+    var isFinishedTyping = true
+    
     override func viewDidLoad() {
         safeAreaBlur.backgroundColor = .clear
         let blurEffect = UIBlurEffect(style: .dark)
@@ -30,15 +32,23 @@ class ViewController: UIViewController {
     @IBAction func calcButtonPressed(_ sender: UIButton) {
         
         //What should happen when a non-number button is pressed
-    
+        isFinishedTyping = true
     }
 
     
     @IBAction func numButtonPressed(_ sender: UIButton) {
         
         //What should happen when a number is entered into the keypad
-        
-        displayLabel.text = sender.titleLabel?.text
+        if let digit = sender.currentTitle {
+            
+            if isFinishedTyping {
+                displayLabel.text = "\(digit)"
+                isFinishedTyping = false
+            } else {
+                displayLabel.text = displayLabel.text! + digit
+            }
+            
+        }
         
     }
 
