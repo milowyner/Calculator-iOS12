@@ -69,20 +69,20 @@ class ViewController: UIViewController {
     @IBAction func numButtonPressed(_ sender: UIButton) {
         //What should happen when a number is entered into the keypad
         
-        if let digit = sender.currentTitle {
+        if let numValue = sender.currentTitle {
             
             if isFinishedTyping {
                 
-                if digit == "." {
+                if numValue == "." {
                     displayLabel.text = "0."
                 } else {
-                    displayLabel.text = digit
+                    displayLabel.text = numValue
                 }
                 isFinishedTyping = false
                 
             } else {
-                if digit != "." || displayLabel.text!.contains(".") == false {
-                    displayLabel.text = displayLabel.text! + digit
+                if numValue != "." || displayLabel.text!.contains(".") == false {
+                    displayLabel.text = displayLabel.text! + numValue
                 }
             }
             
