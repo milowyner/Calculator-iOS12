@@ -14,14 +14,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var safeAreaBlur: UIStackView!
     
     override func viewDidLoad() {
-        print("hello")
-        // 1
         safeAreaBlur.backgroundColor = .clear
-        // 2
         let blurEffect = UIBlurEffect(style: .dark)
-        // 3
         let blurView = UIVisualEffectView(effect: blurEffect)
-        // 4
         blurView.translatesAutoresizingMaskIntoConstraints = false
         safeAreaBlur.insertSubview(blurView, at: 0)
 
