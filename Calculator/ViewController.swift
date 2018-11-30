@@ -68,7 +68,7 @@ class ViewController: UIViewController {
                 if digit == "." {
                     displayLabel.text = "0."
                 } else {
-                    displayLabel.text = "\(digit)"
+                    displayLabel.text = digit
                 }
                 isFinishedTyping = false
                 
