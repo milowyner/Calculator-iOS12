@@ -33,6 +33,29 @@ class ViewController: UIViewController {
         
         //What should happen when a non-number button is pressed
         isFinishedTyping = true
+        
+        if let button = sender.currentTitle {
+            
+            guard let displayText = displayLabel.text else {
+                fatalError("Display label should always contain text")
+            }
+            
+            switch button {
+            case "AC":
+                displayLabel.text = "0"
+            case "+/-":
+                if displayText.first == "-" {
+                    displayLabel.text?.removeFirst()
+                } else {
+                    displayLabel.text = "-" + displayText
+                }
+            case "%":
+                displayLabel.text = String(Double(displayText)! / 100)
+            default:
+                return
+            }
+            
+        }
     }
 
     
