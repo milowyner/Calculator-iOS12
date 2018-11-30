@@ -73,7 +73,9 @@ class ViewController: UIViewController {
                 isFinishedTyping = false
                 
             } else {
-                displayLabel.text = displayLabel.text! + digit
+                if digit != "." || displayLabel.text!.contains(".") == false {
+                    displayLabel.text = displayLabel.text! + digit
+                }
             }
             
         }
