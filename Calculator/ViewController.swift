@@ -61,8 +61,14 @@ class ViewController: UIViewController {
         if let digit = sender.currentTitle {
             
             if isFinishedTyping {
-                displayLabel.text = "\(digit)"
+                
+                if digit == "." {
+                    displayLabel.text = "0."
+                } else {
+                    displayLabel.text = "\(digit)"
+                }
                 isFinishedTyping = false
+                
             } else {
                 displayLabel.text = displayLabel.text! + digit
             }
