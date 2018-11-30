@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var displayLabel: UILabel!
     @IBOutlet weak var safeAreaBlur: UIStackView!
     
-    var isFinishedTyping = true
+    private var isFinishedTyping = true
     
     override func viewDidLoad() {
         safeAreaBlur.backgroundColor = .clear
