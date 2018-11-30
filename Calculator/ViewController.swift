@@ -36,21 +36,17 @@ class ViewController: UIViewController {
         
         if let button = sender.currentTitle {
             
-            guard let displayText = displayLabel.text else {
-                fatalError("Display label should always contain text")
+            guard let number = Double(displayLabel.text!) else {
+                fatalError("Could not convert display label text to double")
             }
             
             switch button {
             case "AC":
                 displayLabel.text = "0"
             case "+/-":
-                if displayText.first == "-" {
-                    displayLabel.text?.removeFirst()
-                } else {
-                    displayLabel.text = "-" + displayText
-                }
+                displayLabel.text = String(number * -1)
             case "%":
-                displayLabel.text = String(Double(displayText)! / 100)
+                displayLabel.text = String(number / 100)
             default:
                 return
             }
