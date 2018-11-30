@@ -30,8 +30,11 @@ class ViewController: UIViewController {
     }
     
     @IBAction func calcButtonPressed(_ sender: UIButton) {
-        
         //What should happen when a non-number button is pressed
+        
+        // TODO: Make it so that numbers displayed in the display text only show a decimal
+        // place if they're not an integer
+        
         isFinishedTyping = true
         
         if let button = sender.currentTitle {
@@ -56,8 +59,8 @@ class ViewController: UIViewController {
 
     
     @IBAction func numButtonPressed(_ sender: UIButton) {
-        
         //What should happen when a number is entered into the keypad
+        
         if let digit = sender.currentTitle {
             
             if isFinishedTyping {
