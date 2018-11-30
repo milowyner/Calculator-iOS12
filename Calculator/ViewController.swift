@@ -15,6 +15,18 @@ class ViewController: UIViewController {
     
     private var isFinishedTyping = true
     
+    private var displayValue: Double {
+        get {
+            guard let number = Double(displayLabel.text!) else {
+                fatalError("Could not convert display label text to double")
+            }
+            return number
+        }
+        set {
+            displayLabel.text = String(newValue)
+        }
+    }
+    
     override func viewDidLoad() {
         safeAreaBlur.backgroundColor = .clear
         let blurEffect = UIBlurEffect(style: .dark)
@@ -39,17 +51,13 @@ class ViewController: UIViewController {
         
         if let button = sender.currentTitle {
             
-            guard let number = Double(displayLabel.text!) else {
-                fatalError("Could not convert display label text to double")
-            }
-            
             switch button {
             case "AC":
                 displayLabel.text = "0"
             case "+/-":
-                displayLabel.text = String(number * -1)
+                displayValue *= -1
             case "%":
-                displayLabel.text = String(number / 100)
+                displayValue /= 100
             default:
                 return
             }
