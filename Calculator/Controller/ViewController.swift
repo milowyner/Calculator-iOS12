@@ -49,19 +49,13 @@ class ViewController: UIViewController {
         
         isFinishedTyping = true
         
-        if let button = sender.currentTitle {
+        if let calcMethod = sender.currentTitle {
+            let calculator = CalculatorLogic(number: displayValue)
             
-            switch button {
-            case "AC":
-                displayLabel.text = "0"
-            case "+/-":
-                displayValue *= -1
-            case "%":
-                displayValue /= 100
-            default:
-                return
+            guard let result = calculator.calculate(symbol: calcMethod) else {
+                fatalError("The result of the calculation is nil")
             }
-            
+            displayValue = result
         }
     }
 
