@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var safeAreaBlur: UIStackView!
     
     private var isFinishedTyping = true
+    private var calculator = CalculatorLogic()
     
     private var displayValue: Double {
         get {
@@ -50,8 +51,7 @@ class ViewController: UIViewController {
         isFinishedTyping = true
         
         if let calcMethod = sender.currentTitle {
-            let calculator = CalculatorLogic(number: displayValue)
-            
+            calculator.number = displayValue
             guard let result = calculator.calculate(symbol: calcMethod) else {
                 fatalError("The result of the calculation is nil")
             }
