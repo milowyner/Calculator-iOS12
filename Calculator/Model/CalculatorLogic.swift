@@ -12,26 +12,35 @@ struct CalculatorLogic {
     var num1: Double?
     var operation: String?
     var num2: Double?
+    private var equalsLastPressed = true
     private var operationLastPressed = false
     
     mutating func enterNumber(_ numberString: String) -> String {
         guard let number = Double(numberString) else {
             fatalError("Invalid number entered")
         }
+        print(operationLastPressed)
         if operationLastPressed == false {
             num1 = number
         } else {
             num2 = number
+            operationLastPressed = false
         }
+        print(#line, num1 as Any, operation as Any, num2 as Any)
         return numberString
     }
     
-    mutating func pressOperation(_ operation: String) -> String? {
+    mutating func pressOperation(_ op: String) -> String? {
         guard let n1 = num1 else {
             return nil
         }
-        switch operation {
+        switch op {
         case "AC":
+            num1 = nil
+            operation = nil
+            num2 = nil
+            operationLastPressed = false
+            print(#line, num1 as Any, operation as Any, num2 as Any)
             return "0"
         case "+/-":
             num1 = n1 * -1
@@ -40,28 +49,51 @@ struct CalculatorLogic {
             num1 = n1 / 100
             return convertToString(num1!)
         default:
-            if operationLastPressed == false {
-                self.operation = operation
-                operationLastPressed = true
-                return nil
-            } else {
+            operationLastPressed = true
+
+            if num2 != nil {
                 let result = calculateResult()
                 num1 = result
+                operation = op
+                print(#line, num1 as Any, operation as Any, num2 as Any)
                 return convertToString(result)
+            } else {
+                operation = op
+                print(#line, num1 as Any, operation as Any, num2 as Any)
+                return nil
             }
+            
         }
     }
     
     mutating func pressEquals() -> String {
-        operationLastPressed = false
         let result = calculateResult()
         num1 = result
+        print(#line, num1 as Any, operation as Any, num2 as Any)
         return convertToString(result)
     }
     
     private func calculateResult() -> Double {
-        guard let n1 = num1, let op = operation, let n2 = num2 else {
-            fatalError("Could not unwrap all of the calculation variables")
+//        guard let n1 = num1, let op = operation, let n2 = num2 else {
+//            fatalError("Could not unwrap all of the calculation variables")
+//        }
+//        var n2: Double
+//        if let temp = num2 {
+//           n2 = temp
+//        } else {
+//            n2 = n1
+//        }
+        guard let n1 = num1 else {
+            return 0
+        }
+        guard let op = operation else {
+            return n1
+        }
+        var n2: Double
+        if let temp = num2 {
+            n2 = temp
+        } else {
+            n2 = n1
         }
         
         switch op {
@@ -119,5 +151,10 @@ struct CalculatorLogic {
         n2 = number
     }
  }
+ 
+ ---
+ 
+ 1. Press number. Displays number.
+ 2. Press equals. Displays number.
  
  */
