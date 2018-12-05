@@ -42,7 +42,30 @@ class ViewController: UIViewController {
 
     }
     
-    @IBAction func calcButtonPressed(_ sender: UIButton) {
+    @IBAction func numButtonPressed(_ sender: UIButton) {
+        //What should happen when a number is entered into the keypad
+        
+        guard let numValue = sender.currentTitle else {
+            fatalError("Number button does not have a title")
+        }
+        
+        //displayLabel.text = calculator.enterNumber(numValue)
+        
+        if isFinishedTyping {
+            if numValue == "." {
+                displayLabel.text = "0."
+            } else {
+                displayLabel.text = calculator.enterNumber(numValue)
+            }
+            isFinishedTyping = false
+        } else {
+            if numValue != "." || displayLabel.text!.contains(".") == false {
+                displayLabel.text = calculator.enterNumber(displayLabel.text! + numValue)
+            }
+        }
+    }
+    
+    @IBAction func operationButtonPressed(_ sender: UIButton) {
         //What should happen when a non-number button is pressed
         
         // TODO: Make it so that numbers displayed in the display text only show a decimal
@@ -50,38 +73,20 @@ class ViewController: UIViewController {
         
         isFinishedTyping = true
         
-        if let calcMethod = sender.currentTitle {
-            calculator.number = displayValue
-            if let result = calculator.calculate(symbol: calcMethod) {
-                displayValue = result
-            }
+        guard let operation = sender.currentTitle else {
+            fatalError("Operation button does not have a title")
+        }
+        
+        if let result = calculator.pressOperation(operation) {
+            displayLabel.text = result
         }
     }
 
-    
-    @IBAction func numButtonPressed(_ sender: UIButton) {
-        //What should happen when a number is entered into the keypad
-        
-        if let numValue = sender.currentTitle {
-            
-            if isFinishedTyping {
-                
-                if numValue == "." {
-                    displayLabel.text = "0."
-                } else {
-                    displayLabel.text = numValue
-                }
-                isFinishedTyping = false
-                
-            } else {
-                if numValue != "." || displayLabel.text!.contains(".") == false {
-                    displayLabel.text = displayLabel.text! + numValue
-                }
-            }
-            
-        }
-        
+    @IBAction func equalsButtonPressed(_ sender: UIButton) {
+        isFinishedTyping = true
+        displayLabel.text = calculator.pressEquals()
     }
+
 
 }
 

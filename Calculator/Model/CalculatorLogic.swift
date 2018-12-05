@@ -8,35 +8,86 @@
 
 import Foundation
 
+struct CalculatorLogic {
+    var num1: Double?
+    var operation: String?
+    var num2: Double?
+    private var operationLastPressed = false
+    
+    mutating func enterNumber(_ numberString: String) -> String {
+        guard let number = Double(numberString) else {
+            fatalError("Invalid number entered")
+        }
+        if operationLastPressed == false {
+            num1 = number
+        } else {
+            num2 = number
+        }
+        return numberString
+    }
+    
+    mutating func pressOperation(_ operation: String) -> String? {
+        guard let n1 = num1 else {
+            return nil
+        }
+        switch operation {
+        case "AC":
+            return "0"
+        case "+/-":
+            num1 = n1 * -1
+            return convertToString(num1!)
+        case "%":
+            num1 = n1 / 100
+            return convertToString(num1!)
+        default:
+            if operationLastPressed == false {
+                self.operation = operation
+                operationLastPressed = true
+                return nil
+            } else {
+                let result = calculateResult()
+                num1 = result
+                return convertToString(result)
+            }
+        }
+    }
+    
+    mutating func pressEquals() -> String {
+        operationLastPressed = false
+        let result = calculateResult()
+        num1 = result
+        return convertToString(result)
+    }
+    
+    private func calculateResult() -> Double {
+        guard let n1 = num1, let op = operation, let n2 = num2 else {
+            fatalError("Could not unwrap all of the calculation variables")
+        }
+        
+        switch op {
+        case "+":
+            return n1 + n2
+        case "-":
+            return n1 - n2
+        case "×":
+            return n1 * n2
+        case "÷":
+            return n1 / n2
+        default:
+            fatalError("The operation passed in does not match any of the cases")
+        }
+    }
+    
+    private func convertToString(_ result: Double) -> String {
+        if floor(result) == result {
+            return String(Int(result))
+        } else {
+            return String(result)
+        }
+    }
+}
+
 /*
- 
- Press number. Since equalsPressed == true, Saves as number 1 and set equalsPressed = false. Displays number 1. displayed: 4, stored: (4, nil, nil)
- Press operation. Saves operation. stored: (4, +, nil)
- Press another number. Saves as number 2. Displays number 2. displayed: 5, stored: (4, +, 5)
- Press equals. Calculates result and displays result. Stores result as number 1. equalsPressed = true. displayed: 9, stored (9, +, 5)
-    Press equals again. Calculates result and displays result. Stores result as number 1. equalsPressed = true. displayed: 14, stored: (14, +, 5)
-    or
-    //number after equals
-    Press number. Since equalsPressed == true, Saves as number 1 and set equalsPressed = false. Displays number 1. displayed: 6, stored: (6, +, 5)
-    Press operation. Saves operation. stored: (6, +, 5)
-        Press number. Since equalsPressed == false, Stores as number 2. Displays number 2. displays 3, stored: (6, +, 3)
-        Press equals. Calculates result and displays result. Stores result as number 1. displayed: 9, stored: (9, +, 3)
-        or
-        Press another operation. Calculates result and displays result. Stores result into number 1. displayed: 9, stored: (9, +, 3)
-            Press another number. Stores as number 2. Displays number 2. displayed 2. stored (9, +, 2)
-            Press equals. Calculates result and displays result. Stores result as number 1. displays 11, stored (11, +, 2)
- or
- Press another operation. Calculates result and displays result. Stores result as number 1. displayed 9, stored (9, +, 5)
-    Press another number. Stores as number 2. Displays number 2. displayed 7, stored (9, +, 7)
-    Press equals. Calculates result and displays result. Stores result into number 1. displayed 16, stored (16, +, 7)
-        //number after equals
-        Press another number. Since equalsPressed == true, saves as number 1 and set equalsPressed = false. Displays number 1. displayed 8, stored (8, +, 7)
-    or
-    Press another operation. Calculations result and displays result. Stores result into number 1. displayed 16, stored (16, + 7)
-        Press another number. Stores as number 2. Displays number 2. displayed 1, stored (16, +, 1)
-        Press another operation. Calculations result and displays result. Stores result into number 1. displayed 17, stored (17, + 7)
- 
-    ...
  
  equalsPressed = true
  
