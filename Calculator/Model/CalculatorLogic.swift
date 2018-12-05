@@ -12,7 +12,7 @@ struct CalculatorLogic {
     var num1: Double?
     var operation: String?
     var num2: Double?
-    private var equalsLastPressed = true
+    private var equalsLastPressed = false
     private var operationLastPressed = false
     
     mutating func enterNumber(_ numberString: String) -> String {
@@ -31,9 +31,18 @@ struct CalculatorLogic {
     }
     
     mutating func pressOperation(_ op: String) -> String? {
+        
+        //TODO: Fix issue where pressing an operation after pressing equals calculates prematurely
+        
         guard let n1 = num1 else {
             return nil
         }
+        
+        if equalsLastPressed {
+            num2 = nil
+            equalsLastPressed = false
+        }
+        
         switch op {
         case "AC":
             num1 = nil
@@ -67,6 +76,7 @@ struct CalculatorLogic {
     }
     
     mutating func pressEquals() -> String {
+        equalsLastPressed = true
         let result = calculateResult()
         num1 = result
         print(#line, num1 as Any, operation as Any, num2 as Any)
