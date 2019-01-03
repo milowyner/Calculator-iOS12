@@ -15,6 +15,12 @@ struct CalculatorLogic {
     private var equalsLastPressed = false
     private var operationLastPressed = false
     
+    //------------------------
+    //TODO: Clean up code
+    //------------------------
+    
+    
+    //TODO: change to pressNumber and add functionality for typing multi-digit numbers inside the class rather than outiside
     mutating func enterNumber(_ numberString: String) -> String {
         guard let number = Double(numberString) else {
             fatalError("Invalid number entered")
@@ -31,8 +37,6 @@ struct CalculatorLogic {
     }
     
     mutating func pressOperation(_ op: String) -> String? {
-        
-        //TODO: Fix issue where pressing an operation after pressing equals calculates prematurely
         
         guard let n1 = num1 else {
             return nil
@@ -84,15 +88,6 @@ struct CalculatorLogic {
     }
     
     private func calculateResult() -> Double {
-//        guard let n1 = num1, let op = operation, let n2 = num2 else {
-//            fatalError("Could not unwrap all of the calculation variables")
-//        }
-//        var n2: Double
-//        if let temp = num2 {
-//           n2 = temp
-//        } else {
-//            n2 = n1
-//        }
         guard let n1 = num1 else {
             return 0
         }
